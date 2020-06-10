@@ -11,10 +11,12 @@ public class ShopController : MonoBehaviour
     public Text dCost;
     public Text rCost;
     public Text gCost;
+    public Text playerCoins;
     public GameObject dUpgrade;
     public GameObject rUpgrade;
     public GameObject gUpgrade;
-    public Text playerCoins;
+    public Image gunModeImage;
+    public Sprite[] gunModeSprites = new Sprite[3];
     int _dCost = 1;
     int _rCost = 2;
     int _gCost = 15;
@@ -43,6 +45,7 @@ public class ShopController : MonoBehaviour
 
     void Update()
     {
+        gunModeImage.sprite = gunModeSprites[_gunModeNow];
         if(PlayerPrefs.HasKey("Coins"))
             playerCoins.text = "You coins: " + PlayerPrefs.GetInt("Coins");
         if(dCost != null)
@@ -88,7 +91,6 @@ public class ShopController : MonoBehaviour
             PlayerPrefs.SetInt("Coins", _playerCoins - _rCost);
             _playerCoins -= _rCost;
             reload -= 0.2f;
-            Debug.Log(reload);
             _rCost *= 2;
             SetKeys();
         }
@@ -155,7 +157,7 @@ public class ShopController : MonoBehaviour
             dUpgrade.SetActive(false);
             Destroy(dCost);
         }
-        if (reload == 0.2f)
+        if (Mathf.Approximately(reload, 2f / 10))
         {
             rUpgrade.SetActive(false);
             Destroy(rCost);

@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     {
         //PlayerPrefs.DeleteAll();
         hightScore = PlayerPrefs.GetInt("HightScore");
+        Time.timeScale = 1;
     }
 
     void Update()
@@ -56,7 +57,6 @@ public class UIController : MonoBehaviour
 
     public void Restart()
     {
-        Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void Shop()

@@ -10,6 +10,9 @@ public class GameComplication : MonoBehaviour
     public MovementController enemyRedMC;
     public MovementController enemyGreenMC;
     public MovementController meteorMC;
+    public MovementController meteorMC2;
+    public MovementController meteorMC3;
+    public MovementController meteorMC4;
     public MovementController enemyLazersMC;
     public MovementController coins;
     public Spawner spawner;
@@ -38,9 +41,12 @@ public class GameComplication : MonoBehaviour
                 enemyRedMC.speed += 0.5f;
                 enemyGreenMC.speed += 0.6f;
                 meteorMC.speed += 1;
-                enemyLazersMC.speed += 1.2f;
+                meteorMC2.speed += 1;
+                meteorMC3.speed += 1;
+                meteorMC4.speed += 0.5f;
+                enemyLazersMC.speed += 0.65f;
                 coins.speed += 1;
-                spawner.spawnReload -= 0.01f;
+                spawner.spawnReload -= 0.03f;
                 background.speed += 0.02f;
             }
             else
@@ -67,6 +73,9 @@ public class GameComplication : MonoBehaviour
         enemyRedMC.speed = 1;
         enemyGreenMC.speed = 1.2f;
         meteorMC.speed = 1;
+        meteorMC2.speed = 1;
+        meteorMC3.speed = 1;
+        meteorMC4.speed = 1;
         enemyLazersMC.speed = 3f;
         coins.speed = 1;
         spawner.spawnReload = 1;

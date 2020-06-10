@@ -4,7 +4,7 @@ using UnityEngine;
 public class MeteorController : MonoBehaviour
 {
     public GameObject explosion; //Взрыв
-    public ParticleSystem meteorParticle; //частицы метеора
+    AudioSource explosionSound;
     public float maxHP = 5; //максимально возможное количество здоровья игрока (нужна что бы в дальнейшем использовать ее в других скриптах)
     float hp; //Здоровье метеора
      private void Awake()
@@ -15,6 +15,7 @@ public class MeteorController : MonoBehaviour
      }
     void Start()
     {
+        explosionSound = FindObjectOfType<AudioController>().meteorExplosionSound;
         hp = maxHP;
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,10 +24,11 @@ public class MeteorController : MonoBehaviour
         {
             hp -= FindObjectOfType<PlayerController>().damage; //если в метеор попадает лазер игрока, то он теряет одно очко здоровья
             Destroy(collision.gameObject); //уничтожение лазера при поподании
-            if (hp > 0)
-                meteorParticle.Play();
-            else
+            if (hp <= 0)
+            {
+                explosionSound.Play();
                 DestroyObject();
+            }
         } 
     }
     void DestroyObject()

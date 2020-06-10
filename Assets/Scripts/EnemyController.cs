@@ -9,6 +9,8 @@ public class EnemyController : MonoBehaviour
     public GameObject[] boosts = new GameObject[2];
     public GameObject explosion;
     public GameObject lazer;
+    AudioSource explosioSound;
+    AudioSource shootSound;
     public float maxHP = 6;
     public float reload = 1;
     public int score; //указываем в инспекторе количество выдаваемых очков за уничтожение врага: красный - 15 очков, зеленый - 20 очков
@@ -17,6 +19,8 @@ public class EnemyController : MonoBehaviour
     int chance;
     void Start()
     {
+        explosioSound = FindObjectOfType<AudioController>().enemyExplosioSound;
+        shootSound = FindObjectOfType<AudioController>().enemyShootSound;
         hp = maxHP;
         boostIndex = UnityEngine.Random.Range(0, boosts.Length);
         chance = UnityEngine.Random.Range(0, 100);
@@ -35,6 +39,7 @@ public class EnemyController : MonoBehaviour
                 FindObjectOfType<UIController>().score += score; //увеличиваем переменную score из скрипта UIController
                 if (chance <= 25)
                     Instantiate(boosts[boostIndex], transform.position, transform.rotation);
+                explosioSound.Play();
                 Destroy(this.gameObject);
             }
         }
@@ -44,6 +49,7 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             Instantiate(lazer, transform.position, transform.rotation);
+            shootSound.Play();
             yield return new WaitForSeconds(reload);
         }
     }

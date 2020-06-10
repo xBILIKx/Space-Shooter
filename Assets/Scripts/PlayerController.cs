@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
     public GameObject lazer3;
     public GameObject explosion;
     public GameObject gameOverPanel; //панель проигрыша
+    AudioSource shootSound;
+    AudioSource playerDeathSound;
     float reload = 1; // время между выстрелами
     string gunMode = "FirstGunMode"; //Строка для вызова нужного оружия
     bool sBoostActive;
     bool dBoostActive;
     private void Start()
     {
+        shootSound = FindObjectOfType<AudioController>().playerShootSound;
+        playerDeathSound = FindObjectOfType<AudioController>().playerDeathSound;
         CheckKey();
         StartCoroutine(Shoot());
     }
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour
         {
             Instantiate(explosion, transform.position, transform.rotation);
             gameOverPanel.SetActive(true); //Активируем панель
+            playerDeathSound.Play();
             Destroy(this.gameObject);
             Destroy(collision.gameObject); //если в персонажа попадает вражеский лазер, или метеор(точнее если сам игрок в него попадает) уничтожаем игрока, и объект который с ним столкнулся
         }
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
         while (true)
         {
             gameObject.SendMessage(gunMode); //вызываю метод указанный в строке
+            shootSound.Play();
             yield return new WaitForSeconds(reload);
         }
     }
