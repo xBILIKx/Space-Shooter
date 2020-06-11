@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class UIController : MonoBehaviour
 {
     public GameObject panel;
+    public GameObject settingsPanel;
+    public GameObject deleteAllPanel;
     public Text tScore;
     public Text tHightScore;
     public int score;
@@ -63,10 +65,27 @@ public class UIController : MonoBehaviour
     {
         SceneManager.LoadScene(2);
     }
+    
+    public void Settings()
+    {
+        settingsPanel.SetActive(!settingsPanel.activeSelf);
+    }
 
     public void Quit()
     {
         Application.Quit();
     }
 
+    public void DeleteAll()
+    {
+        PlayerPrefs.DeleteAll();
+        hightScore = 0;
+        deleteAllPanel.SetActive(false);
+        settingsPanel.SetActive(false);
+    }
+
+    public void DeletetAllPanel()
+    {
+        deleteAllPanel.SetActive(!deleteAllPanel.activeSelf);
+    }
 }

@@ -33,11 +33,11 @@ public class GameComplication : MonoBehaviour
             yield return new WaitForSeconds(20);
             if (!MaxValue())
             {
-                redEC.maxHP += 0.5f;
+                redEC.maxHP += 0.7f;
                 redEC.reload -= 0.03f;
-                greenEC.maxHP += 1f;
+                greenEC.maxHP += 1.2f;
                 greenEC.reload -= 0.05f;
-                mc.maxHP += 0.3f;
+                mc.maxHP += 0.7f;
                 enemyRedMC.speed += 0.5f;
                 enemyGreenMC.speed += 0.6f;
                 meteorMC.speed += 1;

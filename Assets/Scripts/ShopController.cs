@@ -17,6 +17,7 @@ public class ShopController : MonoBehaviour
     public GameObject gUpgrade;
     public Image gunModeImage;
     public Sprite[] gunModeSprites = new Sprite[3];
+    AudioSource upgradeSound;
     int _dCost = 1;
     int _rCost = 2;
     int _gCost = 15;
@@ -27,6 +28,7 @@ public class ShopController : MonoBehaviour
     int _gunModeNow = 0;
     void Start()
     {
+        upgradeSound = FindObjectOfType<AudioController>().upgrade;
         _playerCoins = PlayerPrefs.GetInt("Coins");
         if (CheckKeys("Characteristics"))
         {
@@ -69,6 +71,7 @@ public class ShopController : MonoBehaviour
         if(damage != 4 && _playerCoins >= _dCost)
         {
             PlayerPrefs.SetInt("Coins", _playerCoins - _dCost);
+            upgradeSound.Play();
             _playerCoins -= _dCost;
             damage += 1;
             _dCost *= 2;
@@ -77,6 +80,7 @@ public class ShopController : MonoBehaviour
         else if(damage == 4 && _playerCoins >= _dCost)
         {
             PlayerPrefs.SetInt("Coins", _playerCoins -_dCost);
+            upgradeSound.Play();
             _playerCoins -= _dCost;
             damage += 1;
             dUpgrade.SetActive(false);
@@ -89,6 +93,7 @@ public class ShopController : MonoBehaviour
         if (!Mathf.Approximately(reload, 4f / 10) && _playerCoins >= _rCost)
         {
             PlayerPrefs.SetInt("Coins", _playerCoins - _rCost);
+            upgradeSound.Play();
             _playerCoins -= _rCost;
             reload -= 0.2f;
             _rCost *= 2;
@@ -97,6 +102,7 @@ public class ShopController : MonoBehaviour
         else if(Mathf.Approximately(reload, 4f / 10) && _playerCoins >= _rCost)
         {
             PlayerPrefs.SetInt("Coins", _playerCoins - _rCost);
+            upgradeSound.Play();
             _playerCoins -= _rCost;
             reload -= 0.2f;
             rUpgrade.SetActive(false);
@@ -109,6 +115,7 @@ public class ShopController : MonoBehaviour
         if(_gunModeNow != 1 && _playerCoins >= _gCost)
         {
             PlayerPrefs.SetInt("Coins", _playerCoins - _gCost);
+            upgradeSound.Play();
             _playerCoins -= _gCost;
             _gunModeNow += 1;
             _gCost *= 3;
@@ -117,6 +124,7 @@ public class ShopController : MonoBehaviour
         else if(_gunModeNow == 1 && _playerCoins >= _gCost)
         {
             PlayerPrefs.SetInt("Coins", _playerCoins - _gCost);
+            upgradeSound.Play();
             _playerCoins -= _gCost;
             _gunModeNow += 1;
             gUpgrade.SetActive(false);
