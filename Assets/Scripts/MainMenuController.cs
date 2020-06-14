@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,6 +12,7 @@ public class MainMenuController : MonoBehaviour
     int hightScore;
     void Start()
     {
+        //PlayerPrefs.SetInt("Coins", 99999);
         coins = PlayerPrefs.GetInt("Coins");
         hightScore = PlayerPrefs.GetInt("HightScore");
         tHightScore.text = "HIGHT SCORE: " + hightScore;
@@ -45,6 +44,8 @@ public class MainMenuController : MonoBehaviour
         PlayerPrefs.DeleteAll();
         hightScore = 0;
         coins = 0;
+        tHightScore.text = "HIGHT SCORE: " + hightScore;
+        tcoins.text = "Coins: " + coins;
         deleteAllPanel.SetActive(false);
         settingsPanel.SetActive(false);
     }

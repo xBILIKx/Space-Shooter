@@ -14,7 +14,7 @@ public class AudioController : MonoBehaviour
     //        }
     //        return _instance;
     //    }
-    //}                                      Такой способ почему то у меня просто не работает(не смоттря на то что в интернете все говорят делать именно так, либо отдельным классом через обобщения)
+    //}                      Такой способ почему то у меня просто не работает(не смоттря на то что в интернете все говорят делать именно так, либо отдельным классом через обобщения, но и так тоже не работало)
     public AudioSource playerShootSound;
     public AudioSource playerDeathSound;
     public AudioSource meteorExplosionSound;

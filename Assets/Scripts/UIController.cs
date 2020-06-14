@@ -45,13 +45,13 @@ public class UIController : MonoBehaviour
     }
     public void Pause()
     {
-        if (!panel.activeSelf)
+        if (!panel.activeSelf && PlayerController.instance != null)
         {
             FindObjectOfType<PlayerController>().enabled = false;
             Time.timeScale = 0;
             panel.SetActive(true);
         }
-        else
+        else if(PlayerController.instance != null)
         {
             panel.SetActive(false);
             FindObjectOfType<PlayerController>().enabled = true;

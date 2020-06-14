@@ -5,15 +5,15 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
     public int damage = 1;
-    public GameObject lazer; //Префаб лазера
-    public GameObject lazer2; //улучшенный лазер
+    public GameObject lazer; 
+    public GameObject lazer2; 
     public GameObject lazer3;
     public GameObject explosion;
-    public GameObject gameOverPanel; //панель проигрыша
-    AudioSource shootSound;
-    AudioSource playerDeathSound;
-    float reload = 1; // время между выстрелами
-    string gunMode = "FirstGunMode"; //Строка для вызова нужного оружия
+    public GameObject gameOverPanel; 
+    AudioSource shootSound = AudioController.instance.playerShootSound;
+    AudioSource playerDeathSound = AudioController.instance.playerDeathSound;
+    float reload = 1;
+    string gunMode = "FirstGunMode"; 
     bool sBoostActive;
     bool dBoostActive;
     private void Awake()
@@ -25,8 +25,6 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        shootSound = AudioController.instance.playerShootSound;
-        playerDeathSound = AudioController.instance.playerDeathSound;
         CheckKey();
         StartCoroutine(Shoot());
     }
@@ -34,9 +32,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition); //вычисляем положение курсора(пальца)
+            Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
             if(pos.x < 1.9f || pos.y < 3.8f)
-                transform.position = new Vector3(pos.x, pos.y + 1, 0); //пермещаем игрока к курсору(пальцу), условие нужно что бы когда игрок кликал на паузу, игрока не телепортировало к самому значку 
+                transform.position = new Vector3(pos.x, pos.y + 1, 0); 
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -44,10 +42,10 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "EnemyLaser" || collision.tag == "Asteroid" || collision.tag == "Enemy")
         {
             Instantiate(explosion, transform.position, transform.rotation);
-            gameOverPanel.SetActive(true); //Активируем панель
+            gameOverPanel.SetActive(true); 
             playerDeathSound.Play();
             Destroy(this.gameObject);
-            Destroy(collision.gameObject); //если в персонажа попадает вражеский лазер, или метеор(точнее если сам игрок в него попадает) уничтожаем игрока, и объект который с ним столкнулся
+            Destroy(collision.gameObject); 
         }
     }
 
@@ -55,7 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         while (true)
         {
-            gameObject.SendMessage(gunMode); //вызываю метод указанный в строке
+            gameObject.SendMessage(gunMode); 
             shootSound.Play();
             yield return new WaitForSeconds(reload);
         }
@@ -63,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     void FirstGunMode()
     {
-        Instantiate(lazer, transform.position, transform.rotation); //создание лазеров
+        Instantiate(lazer, transform.position, transform.rotation); 
     }
 
     void SecondGunMode()
