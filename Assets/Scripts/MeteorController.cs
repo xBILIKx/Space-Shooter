@@ -15,14 +15,14 @@ public class MeteorController : MonoBehaviour
      }
     void Start()
     {
-        explosionSound = FindObjectOfType<AudioController>().meteorExplosionSound;
+        explosionSound = AudioController.instance.meteorExplosionSound;
         hp = maxHP;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "PlayerLaser" && GameObject.Find("Player") != null)
+        if (collision.tag == "PlayerLaser" && PlayerController.instance != null)
         {
-            hp -= FindObjectOfType<PlayerController>().damage; //если в метеор попадает лазер игрока, то он теряет одно очко здоровья
+            hp -= PlayerController.instance.damage; //если в метеор попадает лазер игрока, то он теряет одно очко здоровья
             Destroy(collision.gameObject); //уничтожение лазера при поподании
             if (hp <= 0)
             {
@@ -34,7 +34,7 @@ public class MeteorController : MonoBehaviour
     void DestroyObject()
     {
         Instantiate(explosion, transform.position, transform.rotation); //создаем эффект взрыва
-        FindObjectOfType<UIController>().score += 5;
+        UIController.instance.ChangeScore(5);
         Destroy(this.gameObject); //если здоровье равно 0 уничтожить метеор
     }
 }

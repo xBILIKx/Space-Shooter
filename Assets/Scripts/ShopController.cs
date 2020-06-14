@@ -28,7 +28,7 @@ public class ShopController : MonoBehaviour
     int _gunModeNow = 0;
     void Start()
     {
-        upgradeSound = FindObjectOfType<AudioController>().upgrade;
+        upgradeSound = AudioController.instance.upgrade;
         _playerCoins = PlayerPrefs.GetInt("Coins");
         if (CheckKeys("Characteristics"))
         {
@@ -56,12 +56,9 @@ public class ShopController : MonoBehaviour
             rCost.text = "Cost: " + _rCost;
         if(gCost != null)
             gCost.text = "Cost: " + _gCost;
-        if (CheckKeys("Characteristics"))
-        {
-            damageUp.text = "You Damage: " + damage;
-            reloadSpeed.text = "You Reload Speed: " + reload;
-            gunMode.text = $"You Gun Mode: {_gunModeNow + 1}";
-        }
+        damageUp.text = "You Damage: " + damage;
+        reloadSpeed.text = "You Reload Speed: " + reload;
+        gunMode.text = $"You Gun Mode: {_gunModeNow + 1}";
     }
 
     
@@ -75,7 +72,6 @@ public class ShopController : MonoBehaviour
             _playerCoins -= _dCost;
             damage += 1;
             _dCost *= 2;
-            SetKeys();
         }
         else if(damage == 4 && _playerCoins >= _dCost)
         {
@@ -85,7 +81,6 @@ public class ShopController : MonoBehaviour
             damage += 1;
             dUpgrade.SetActive(false);
             Destroy(dCost);
-            SetKeys();
         }
     }
     public void ReloadSpeedUpgrade()
@@ -97,7 +92,6 @@ public class ShopController : MonoBehaviour
             _playerCoins -= _rCost;
             reload -= 0.2f;
             _rCost *= 2;
-            SetKeys();
         }
         else if(Mathf.Approximately(reload, 4f / 10) && _playerCoins >= _rCost)
         {
@@ -107,7 +101,6 @@ public class ShopController : MonoBehaviour
             reload -= 0.2f;
             rUpgrade.SetActive(false);
             Destroy(rCost);
-            SetKeys();
         }
     }
     public void GunModeUpgrade()
@@ -135,6 +128,7 @@ public class ShopController : MonoBehaviour
 
     public void Return()
     {
+        SetKeys();
         SceneManager.LoadScene(0);
     }
 
@@ -148,14 +142,12 @@ public class ShopController : MonoBehaviour
 
     bool CheckKeys(string keys)
     {
-        if (PlayerPrefs.HasKey("Damage") && PlayerPrefs.HasKey("Reload") && PlayerPrefs.HasKey("GunMode") && keys == "Characteristics")
+        if (keys == "Characteristics" && PlayerPrefs.HasKey("Damage") && PlayerPrefs.HasKey("Reload") && PlayerPrefs.HasKey("GunMode"))
             return true;
         else if (keys == "prices" && PlayerPrefs.HasKey("DamageCost") && PlayerPrefs.HasKey("ReloadCost") && PlayerPrefs.HasKey("GunModeCost"))
             return true;
         else
-        {
             return false;
-        }
     }
 
     void CheckForMaxValue()

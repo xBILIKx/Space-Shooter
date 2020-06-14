@@ -4,38 +4,45 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
+    public static UIController instance;
     public GameObject panel;
     public GameObject settingsPanel;
-    public GameObject deleteAllPanel;
     public Text tScore;
     public Text tHightScore;
-    public int score;
+    public Text tcoins;
+    int coins;
+    int _score = 0;
     int hightScore;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
+        coins = PlayerPrefs.GetInt("Coins");
         hightScore = PlayerPrefs.GetInt("HightScore");
+        tScore.text = "SCORE: " + _score;
+        tHightScore.text = "HIGHT SCORE: " + hightScore;
+        tcoins.text = "Coins: " + coins;
         Time.timeScale = 1;
     }
 
-    void Update()
+    public void ChangeScore(int score)
     {
-        if (score > hightScore)
-            HightScore();
-        tScore.text = "SCORE: " + score;
+        _score += score;
+        if (_score > hightScore)
+            hightScore = _score;
+        tScore.text = "SCORE: " + _score;
         tHightScore.text = "HIGHT SCORE: " + hightScore;
     }
-    void HightScore()
+    public void ChangeCoins()
     {
-        hightScore = score;
-        PlayerPrefs.SetInt("HightScore", hightScore);
+        coins += 1;
+        tcoins.text = "Coins: " + coins;
     }
-
-    public void Play()
-    {
-        SceneManager.LoadScene(1);
-    }
-
     public void Pause()
     {
         if (!panel.activeSelf)
@@ -54,38 +61,26 @@ public class UIController : MonoBehaviour
 
     public void MainMenu()
     {
+        PlayerPrefs.SetInt("HightScore", hightScore);
+        PlayerPrefs.SetInt("Coins", coins);
         SceneManager.LoadScene(0);
     }
 
     public void Restart()
     {
+        PlayerPrefs.SetInt("HightScore", hightScore);
+        PlayerPrefs.SetInt("Coins", coins);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void Shop()
     {
+        PlayerPrefs.SetInt("HightScore", hightScore);
+        PlayerPrefs.SetInt("Coins", coins);
         SceneManager.LoadScene(2);
     }
     
     public void Settings()
     {
         settingsPanel.SetActive(!settingsPanel.activeSelf);
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
-    }
-
-    public void DeleteAll()
-    {
-        PlayerPrefs.DeleteAll();
-        hightScore = 0;
-        deleteAllPanel.SetActive(false);
-        settingsPanel.SetActive(false);
-    }
-
-    public void DeletetAllPanel()
-    {
-        deleteAllPanel.SetActive(!deleteAllPanel.activeSelf);
     }
 }

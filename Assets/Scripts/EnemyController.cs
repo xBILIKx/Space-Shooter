@@ -16,28 +16,28 @@ public class EnemyController : MonoBehaviour
     public int score; //указываем в инспекторе количество выдаваемых очков за уничтожение врага: красный - 15 очков, зеленый - 20 очков
     float hp;
     int boostIndex;
-    int chance;
+    //int chance;
     void Start()
     {
-        explosioSound = FindObjectOfType<AudioController>().enemyExplosioSound;
-        shootSound = FindObjectOfType<AudioController>().enemyShootSound;
+        explosioSound = AudioController.instance.enemyExplosioSound;
+        shootSound = AudioController.instance.enemyShootSound;
         hp = maxHP;
         boostIndex = UnityEngine.Random.Range(0, boosts.Length);
-        chance = UnityEngine.Random.Range(0, 100);
+        //chance = UnityEngine.Random.Range(0, 100);
         StartCoroutine(Shoot());
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "PlayerLaser" && GameObject.Find("Player") != null)
+        if (collision.tag == "PlayerLaser" && PlayerController.instance != null)
         {
-            hp -= FindObjectOfType<PlayerController>().damage; ;
+            hp -= PlayerController.instance.damage;
             Destroy(collision.gameObject);
             if (hp <= 0)
             {
                 Instantiate(explosion, transform.position, transform.rotation);
-                FindObjectOfType<UIController>().score += score; //увеличиваем переменную score из скрипта UIController
-                if (chance <= 25)
+                UIController.instance.ChangeScore(score); //увеличиваем переменную score из скрипта UIController
+                if (UnityEngine.Random.Range(0, 100) <= 25)
                     Instantiate(boosts[boostIndex], transform.position, transform.rotation);
                 explosioSound.Play();
                 Destroy(this.gameObject);

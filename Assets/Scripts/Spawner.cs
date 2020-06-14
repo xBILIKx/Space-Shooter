@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    public static Spawner instance;
     [SerializeField] GameObject[] enemies = new GameObject[10]; //массив из "враждебных" объектов
     public float spawnReload = 1; //время между "спавном" объектов
     GameObject enemy;
     Vector3 enemyPos;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
     private void Start()
     {
         StartCoroutine(Spawn());

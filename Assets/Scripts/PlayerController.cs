@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     public int damage = 1;
     public GameObject lazer; //Префаб лазера
     public GameObject lazer2; //улучшенный лазер
@@ -15,10 +16,17 @@ public class PlayerController : MonoBehaviour
     string gunMode = "FirstGunMode"; //Строка для вызова нужного оружия
     bool sBoostActive;
     bool dBoostActive;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+    }
     private void Start()
     {
-        shootSound = FindObjectOfType<AudioController>().playerShootSound;
-        playerDeathSound = FindObjectOfType<AudioController>().playerDeathSound;
+        shootSound = AudioController.instance.playerShootSound;
+        playerDeathSound = AudioController.instance.playerDeathSound;
         CheckKey();
         StartCoroutine(Shoot());
     }

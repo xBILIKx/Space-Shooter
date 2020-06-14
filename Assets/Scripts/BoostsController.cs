@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class BoostsController : MonoBehaviour
 {
-    PlayerController pc;
+    PlayerController pc = PlayerController.instance;
     public string boostName;
     public int reloadTime;
     private void Start()
     {
-        try
-        {
+        if(GameObject.Find("Player") != null)
             pc = GameObject.Find("Player").GetComponent<PlayerController>();
-        }
-        catch { }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

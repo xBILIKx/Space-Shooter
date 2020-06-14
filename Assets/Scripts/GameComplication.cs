@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameComplication : MonoBehaviour
@@ -15,8 +14,8 @@ public class GameComplication : MonoBehaviour
     public MovementController meteorMC4;
     public MovementController enemyLazersMC;
     public MovementController coins;
-    public Spawner spawner;
     public Background background;
+    int count = 0;
     private void Awake()
     {
         SetPrimaryCharacteristics();
@@ -28,39 +27,27 @@ public class GameComplication : MonoBehaviour
 
     IEnumerator BoostEnemyCharacteristics()
     {
-        while (true)
-        {
-            yield return new WaitForSeconds(20);
-            if (!MaxValue())
-            {
-                redEC.maxHP += 0.7f;
-                redEC.reload -= 0.03f;
-                greenEC.maxHP += 1.2f;
-                greenEC.reload -= 0.05f;
-                mc.maxHP += 0.7f;
-                enemyRedMC.speed += 0.5f;
-                enemyGreenMC.speed += 0.6f;
-                meteorMC.speed += 1;
-                meteorMC2.speed += 1;
-                meteorMC3.speed += 1;
-                meteorMC4.speed += 0.5f;
-                enemyLazersMC.speed += 0.65f;
-                coins.speed += 1;
-                spawner.spawnReload -= 0.03f;
-                background.speed += 0.02f;
-            }
-            else
-            {
-                break;
-            }
-        }
-    }
-
-    bool MaxValue()
-    {
-        if (greenEC.reload == 0.05)
-            return true;
-        return false;
+        yield return new WaitForSeconds(50);
+        redEC.maxHP += 3f * count;
+        redEC.reload -= 0.1f;
+        greenEC.maxHP += 4f * count;
+        greenEC.reload -= 0.12f;
+        mc.maxHP += 2f * count;
+        enemyRedMC.speed += 1f;
+        enemyGreenMC.speed += 1.5f;
+        meteorMC.speed += 1;
+        meteorMC2.speed += 1;
+        meteorMC3.speed += 1;
+        meteorMC4.speed += 1;
+        enemyLazersMC.speed += 1.6f;
+        coins.speed += 1;
+        Spawner.instance.spawnReload -= 0.12f;
+        background.speed += 0.03f;
+        count += 1;
+        if (count != 5)
+            StartCoroutine(BoostEnemyCharacteristics());
+        else
+            Destroy(gameObject);
     }
 
     void SetPrimaryCharacteristics()
@@ -78,7 +65,7 @@ public class GameComplication : MonoBehaviour
         meteorMC4.speed = 1;
         enemyLazersMC.speed = 3f;
         coins.speed = 1;
-        spawner.spawnReload = 1;
+        Spawner.instance.spawnReload = 1;
         background.speed = 0.05f;
     }
 }
