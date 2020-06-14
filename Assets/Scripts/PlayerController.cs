@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
     public GameObject lazer3;
     public GameObject explosion;
     public GameObject gameOverPanel; 
-    AudioSource shootSound = AudioController.instance.playerShootSound;
-    AudioSource playerDeathSound = AudioController.instance.playerDeathSound;
+    AudioSource shootSound;
+    AudioSource playerDeathSound;
     float reload = 1;
     string gunMode = "FirstGunMode"; 
     bool sBoostActive;
@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
+        shootSound = AudioController.instance.playerShootSound;
+        playerDeathSound = AudioController.instance.playerDeathSound;
         CheckKey();
         StartCoroutine(Shoot());
     }
